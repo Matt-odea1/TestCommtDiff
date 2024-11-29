@@ -39,15 +39,11 @@ const getUniqueTicketsBetweenBranches = (targetBranch, sourceBranch, repositoryP
         // cherryPickedCommits finds all commits, if they have the same message. There exists a whole bunch of duplicate stuff from old cherry picks that have different commit IDs but same code. 
         // We should get these so we can ignore them
 
-
-        // get all commits that are in target branch, but not source branch. What does cherry pick do?
         // cherry pick is used to grab individual commits from dev branch (which contains all up to date code)
         .toString()
         .trim()
         .split('\n');
     const allCommits = execSync(`git -C ${repositoryPath} log --oneline origin/${targetBranch}..origin/${sourceBranch}`)
-        // get all commits that are in target branch, but not in source branch? .. operator seems like in A but not in B. Why use that here, and ^ earlier.
-        // how is this different to the cherry picked commits?
         .toString()
         .trim()
         .split('\n');
@@ -55,7 +51,6 @@ const getUniqueTicketsBetweenBranches = (targetBranch, sourceBranch, repositoryP
     const cherryPickedTickets = extractTicketsFromCommits(cherryPickedCommits); // get cherry picked tickets (figure out what these are)
     const newTickets = _.difference(allTickets, cherryPickedTickets); // find any new tickets that did not exist before. What happens to badly tagged commits here?
     // All new commits, excluding dup old cherry pick weird commits
-
 
     // ie its valid as per the Regex starts with, but the number is made up or invalid or matches an old ticket? Do we care? Does this ever happen. ==> we don't care
     const validTickets = newTickets.filter(ticket => ticketPatterns.some(pattern => ticket.startsWith(pattern)));
