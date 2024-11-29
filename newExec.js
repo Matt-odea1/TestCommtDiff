@@ -61,9 +61,10 @@ const getUniqueTicketsBetweenBranches = async (owner, repo, targetBranch, source
         // Fetch commits from GitHub API
         console.log(`Fetching commits from GitHub for branches ${sourceBranch} and ${targetBranch}`);
         const commits = await getGitHubCommits(owner, repo, sourceBranch, targetBranch);
-
+        console.log(commits);
         const allTickets = extractTicketsFromCommits(commits);
-        const validTickets = getValidTickets(allTickets);
+        //const validTickets = getValidTickets(allTickets);
+        const validTickets = allTickets;
 
         console.log(`Found tickets: ${validTickets.join(', ')}`);
         return validTickets.sort();
@@ -123,7 +124,8 @@ const getAllCommits = async () => {
     console.log(`-> ${color.fgBlue}Fetching commits for repository ${repo} from GitHub API${color.reset}`);
 
     const tickets = await getUniqueTicketsBetweenBranches(owner, repo, targetBranch, sourceBranch);
-
+    console.log(tickets);
+/*
     // Handle the responseType option
     if (responseType === 'list') {
         console.log(`Tickets: ${tickets.join(', ')}`);
@@ -135,6 +137,7 @@ const getAllCommits = async () => {
     }
 
     console.log(`-> ${color.fgBlue}Total tickets: ${color.reset}${tickets.length}`);
+*/
 };
 
 // Start the script
